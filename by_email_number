@@ -1,0 +1,26 @@
+import win32com.client
+import os
+from datetime import date
+
+#initializing outlook client
+outlook=win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+
+#declaring variables
+inbox=outlook.GetDefaultFolder(6) #'6' is the main inbox folder, will not work for other folders 
+sub='Report: UCIs V2 ALL UCI - Dash update data' # here enter the subject of the email you would want to search for
+messages=inbox.Items
+message = messages.GetLast() # get the latest message
+cap = 200 #a random number ensuring you do not search through more emails than necessary
+
+#Iteration through the inbox main folder
+for x in range(1, cap):
+    if inbox.Items[len(inbox.Items)-x].Subject == sub:
+        att=inbox.Items[len(inbox.Items)-x].attachments.Item(1)
+        att.SaveAsFile(r'\\lcwfsv5\\users\\e621175\\Desktop\\macro' + '\\' + str(att))
+        print(str(att)+ ' has been saved')
+        break
+    
+#move the old file to the archive directory
+filepath1=r'\\mu1pw1024\\all_staff_poland\\ERM\\Credit Risk Support\\Dashboard\\PE NAVs\\Update files\\' #production path
+filepath2=r'\\mu1pw1024\\all_staff_poland\\ERM\\Credit Risk Support\\Dashboard\\PE NAVs\\Update files\\TESTING\\' #archive path
+os.rename(filepath1+'test.xlsx', filepath2+today+' '+str(att))
