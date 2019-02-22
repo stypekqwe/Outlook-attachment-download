@@ -1,0 +1,28 @@
+import win32com.client
+import os
+import datetime
+
+#initializing outlook client
+outlook=win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+
+#declaring variables
+inbox=outlook.GetDefaultFolder(6) #'6' is the main inbox folder, will not work for other folders
+sub='Report: UCIs V2 ALL UCI - Dash update data'
+today = datetime.date.today()
+x=1
+messages=inbox.Items
+cap = 200 # arbitrary cap to ensure the program does not run for too long
+
+while True:
+    if inbox.Items[len(inbox.Items)-x].Subject == sub:
+        y= inbox.Items[len(inbox.Items)-x].CreationTime
+        y=y.date()
+        if y==today:
+            att=inbox.Items[len(inbox.Items)-x].attachments.Item(1)
+            att.SaveAsFile(r'\\lcwfsv5\\users\\e621175\\Desktop\\macro' + '\\' + str(att))
+            print(inbox.Items[len(inbox.Items)-x].Subject + ' has been saved')
+            break
+    if x==cap:
+        print('The e-mail with the subject "',sub,'" was not found')
+        break
+    x=x+1
