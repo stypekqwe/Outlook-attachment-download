@@ -21,6 +21,6 @@ for x in range(1, cap):
         break
     
 #move the old file to the archive directory
-filepath1=r'\\mu1pw1024\\all_staff_poland\\ERM\\Credit Risk Support\\Dashboard\\PE NAVs\\Update files\\' #production path
-filepath2=r'\\mu1pw1024\\all_staff_poland\\ERM\\Credit Risk Support\\Dashboard\\PE NAVs\\Update files\\TESTING\\' #archive path
+filepath1=r'your_production_path_here' #production path
+filepath2=r'your_archive_path_here' #archive path
 os.rename(filepath1+'test.xlsx', filepath2+today+' '+str(att))
